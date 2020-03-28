@@ -1,6 +1,5 @@
 import './style.css';
 import Icon from './fantasy.jpg';
-import Data from './data.xml';
 import displayM1 from './m1';
 
 async function component() {
@@ -19,7 +18,6 @@ async function component() {
     // const myIcon = new Image();
     // myIcon.src = Icon;
     // element.appendChild(myIcon);
-    console.log(Data);
 
     btn.innerHTML = 'Click me and check the console!';
     btn.onclick = printMe;
@@ -37,8 +35,8 @@ setTimeout(() => {
     component().then(component => {
         document.body.appendChild(component);
     });
-}, 10);
+}, 2000);
 
-const ENV = process.env;
+// const ENV = process.env;
 
-console.log('process.env: ', ENV);
+// console.log('process.env: ', ENV);
