@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 function Fn1() {
   axios.get('http://127.0.0.1/api').then((res) => {
@@ -8,6 +8,6 @@ function Fn1() {
   });
 }
 
-export {
-  Fn1
+module.exports = {
+  func: Fn1
 };

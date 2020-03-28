@@ -19,7 +19,7 @@ module.exports = merge(common, {
       to: path.resolve(__dirname, '../dist/static/')
     }]),
   ],
-  optimization: {
-    minimize: true
-  }
+  // optimization: {
+  //   minimize: true
+  // }
 });
