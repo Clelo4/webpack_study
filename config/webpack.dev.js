@@ -40,7 +40,7 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-        CUSTOM_ENV: JSON.stringify('custom_env'), // 自定义的环境变量
+        BASE_URL: JSON.stringify('http://127.0.0.1'), // 自定义的环境变量
       }
     })
   ]

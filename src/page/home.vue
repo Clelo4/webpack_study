@@ -10,6 +10,7 @@
 <script>
 // import { a1, fn1 } from '@/utils/a.mjs';
 // import { fn1 as Func } from './m1';
+import service from '@/utils/request';
 
 export default {
   name: 'Home',
@@ -21,6 +22,7 @@ export default {
   },
   methods: {
     click() {
+      service.get('/api').then(() => {}).catch((error) => {console.log(error);});
       const { func } = require('./m1');
       func();
     }

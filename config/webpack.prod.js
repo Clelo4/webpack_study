@@ -18,6 +18,13 @@ module.exports = merge(common, {
       from: path.resolve(__dirname, '../public/static/'),
       to: path.resolve(__dirname, '../dist/static/')
     }]),
+    // 定义环境变量 
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'producation'),
+        BASE_URL: JSON.stringify('http://127.0.0.1'), // 自定义的环境变量
+      }
+    })
   ],
   // optimization: {
   //   minimize: true
