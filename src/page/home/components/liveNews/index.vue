@@ -16,7 +16,7 @@
         arrow="none"
         class="carousel-medium"
       >
-<CarouselItem
+        <CarouselItem
           v-for="item in articleList"
           :key="item.title"
           class="item"

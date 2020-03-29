@@ -8,8 +8,8 @@
     <main class="article-list">
       <articlePanel
         v-for="item in articleList"
-        class="list-item"
         :key="item"
+        class="list-item"
         :img-pic="item.img"
         :title="item.title"
         :time="item.time"
@@ -27,8 +27,8 @@
         :total="articleTotal"
         show-total
         :page-size="pageSize"
-        @on-change="changePageNumber"
         :simple="true"
+        @on-change="changePageNumber"
       />
     </footer>
   </div>
