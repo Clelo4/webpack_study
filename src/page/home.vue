@@ -8,8 +8,6 @@
 </template>
 
 <script>
-// import { a1, fn1 } from '@/utils/a.mjs';
-// import { fn1 as Func } from './m1';
 import service from '@/utils/request';
 
 export default {
@@ -17,14 +15,10 @@ export default {
   components: {
   },
   created() {
-    // console.log('Apple: ', a1);
-    // console.log('fn1: ', fn1());
   },
   methods: {
     click() {
       service.get('/api').then(() => {}).catch((error) => {console.log(error);});
-      const { func } = require('./m1');
-      func();
     }
   }
 };
@@ -37,6 +31,5 @@ export default {
   display: block;
   width: 100vw;
   height: 400px;
-  background: url('/static/bg.jpg');
 }
 </style>
