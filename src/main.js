@@ -2,16 +2,21 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
 
 var globalMixin = {
   created: () => {},
   computed: {},
   data: function () {
-    return {};
+    return {
+      publicPath: ''
+    };
   }
 };
 
 Vue.mixin(globalMixin);
+Vue.use(ViewUI);
 
 var vm = new Vue({
   render: h => h(App),
@@ -25,5 +30,5 @@ var vm = new Vue({
  * See more https://vuejs.org/v2/api/#Vue-nextTick
  */
 Vue.nextTick(function () {});
-const env = Object.assign({}, process.env);
-console.log(env);
+// const env = Object.assign({}, process.env);
+// console.log(env);

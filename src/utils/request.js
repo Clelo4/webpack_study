@@ -37,7 +37,7 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   (response) => {
-    return response;
+    return response.data;
   },
   (error) => {
     return Promise.reject(error);

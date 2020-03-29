@@ -15,7 +15,7 @@ module.exports = merge(common, {
     open: false,
     historyApiFallback: false,
     hot: true,
-    clientLogLevel: 'trace',
+    clientLogLevel: 'silent',
     compress: true,
     headers: {
       'X-Custom-Foo': 'bar'
@@ -30,8 +30,8 @@ module.exports = merge(common, {
     // compress: true,
     // proxy: {}, // 代理列表
     onListening: function (server) {
-      const port = server.listeningApp.address().port;
-      console.log('Listening on port:', port);
+      // const port = server.listeningApp.address().port;
+      // console.log('Listening on port:', server.listeningApp.address());
     },
     quiet: true,
   },

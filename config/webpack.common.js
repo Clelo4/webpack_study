@@ -3,6 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const projectRoot = path.resolve(__dirname, '../');
+// This plugin extracts CSS into separate files. 
+// It creates a CSS file per JS file which contains CSS. 
+// It supports On-Demand-Loading of CSS and SourceMaps.
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// This plugin uses terser to minify your JavaScript.
+const TerserPlugin = require('terser-webpack-plugin');
+// To minify the output, use a plugin like optimize-css-assets-webpack-plugin
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
   // 入口文件配置
@@ -11,8 +19,7 @@ module.exports = {
   },
   // 出口文件配置
   output: {
-    filename: '[name].[' + (process.env.NODE_ENV === "development" ? "hash" : "contenthash") + '].js',
-    // filename: '[name].[hash].js',
+    filename: 'js/[name]-[' + (process.env.NODE_ENV === "development" ? "hash" : "contenthash") + '].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
@@ -30,7 +37,11 @@ module.exports = {
     },
     // runtimeChunk
     runtimeChunk: 'single',
-    moduleIds: 'hashed'
+    moduleIds: 'hashed',
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      parallel: false
+    }), new OptimizeCSSAssetsPlugin({})],
   },
   // 插件配置
   plugins: [
@@ -44,7 +55,12 @@ module.exports = {
       chunksSortMode: 'auto',
     }),
     // make sure to include the plugin!
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: 'css/[name]-[contenthash].css'
+    }),
   ],
   // module配置
   module: {
@@ -52,41 +68,73 @@ module.exports = {
       // 配置css loader
       {
         test: /\.css$/,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         use: [{
-          loader: 'style-loader'
-        }, {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1
-          }
-        }, {
-          loader: 'postcss-loader'
-        }]
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === 'development',
+              publicPath: '/'
+            },
+          }, {
+            loader: 'css-loader',
+          },
+          // 'postcss-loader'
+        ]
       },
       // 配置stylus loader
       {
         test: /\.(stylus|styl)$/,
-        exclude: /node_modules/,
-        use: [
-          'style-loader',
+        // exclude: /node_modules/,
+        use: [{
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === 'development',
+              publicPath: '/'
+            },
+          },
           {
             loader: 'css-loader',
-            options: {
-              importLoaders: 1
-            }
           },
-          'postcss-loader',
+          // 'postcss-loader',
           'stylus-loader'
+        ]
+      },
+      // sass loader
+      {
+        test: /\.s[ac]ss$/i,
+        // exclude: /node_modules/,
+        use: [{
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === 'development',
+              publicPath: '/'
+            },
+          },
+          {
+            loader: 'css-loader',
+          },
+          // 'postcss-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
         ]
       },
       // 配置图片loader
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader']
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'img'
+          }
+        }]
       }, {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ['file-loader']
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'fonts'
+          }
+        }]
       },
       {
         test: /\.vue$/,
@@ -125,7 +173,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [' ', '.js', '.vue', '.stylus', '.styl', '.less', '.css', '.scss'],
+    extensions: [' ', '.js', '.vue', '.stylus', '.styl', '.less', '.css', '.stylus'],
     /**
      * Create aliases to import or require certain modules more easily.
      * For example, to alias a bunch of commonly used src/ folders:

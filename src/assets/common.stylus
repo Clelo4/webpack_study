@@ -1,0 +1,15 @@
+.common-divider {
+    background-color: #ffffff !important;
+    margin: 0 !important;
+    transform: scaleY(.5) !important;
+}
+
+.global_container_1 {
+  margin: auto 2rem;
+}
+
+
+footer.page-footer {
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+}
