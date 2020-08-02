@@ -1,30 +1,30 @@
-import './style.css';
+import './style';
 import Icon from './fantasy.jpg';
 import displayM1 from './m1';
 
 async function component() {
-    const element = document.createElement('div');
-    const btn = document.createElement('button');
+  const element = document.createElement('div');
+  const btn = document.createElement('button');
 
-    // 动态加载lodash库
-    const {
-        default: _
-    } = await import('lodash');
-    // 动态加载print模块
-    const printMe = await import('./print.js');
-    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-    element.classList.add('hello');
+  // 动态加载lodash库
+  const {
+    default: _
+  } = await import('lodash');
+  // 动态加载print模块
+  const printMe = await import('./print.js');
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.classList.add('hello');
 
-    // const myIcon = new Image();
-    // myIcon.src = Icon;
-    // element.appendChild(myIcon);
+  // const myIcon = new Image();
+  // myIcon.src = Icon;
+  // element.appendChild(myIcon);
 
-    btn.innerHTML = 'Click me and check the console!';
-    btn.onclick = printMe;
+  btn.innerHTML = 'Click me and check the console!';
+  btn.onclick = printMe;
 
-    element.appendChild(btn);
+  element.appendChild(btn);
 
-    return element;
+  return element;
 }
 
 displayM1();
@@ -32,11 +32,11 @@ displayM1();
 console.log('only change index.js file!');
 
 setTimeout(() => {
-    component().then(component => {
-        document.body.appendChild(component);
-    });
+  component().then(component => {
+    document.body.appendChild(component);
+  });
 }, 2000);
 
-// const ENV = process.env;
+const ENV = process.env;
 
-// console.log('process.env: ', ENV);
+console.log('process.env: ', ENV);
