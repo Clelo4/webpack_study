@@ -128,6 +128,7 @@ module.exports = {
         use: ['xml-loader']
       }
     ],
+    noParse: [/vue\.min\.js$/, /jQuery\.js$/]
   },
   resolve: {
     alias: {
