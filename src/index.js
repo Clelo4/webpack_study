@@ -1,6 +1,7 @@
 import './style';
 import Icon from './fantasy.jpg';
 import displayM1 from './m1';
+import './c1';
 
 async function component() {
   const element = document.createElement('div');
@@ -12,8 +13,9 @@ async function component() {
   } = await import('lodash');
   // 动态加载print模块
   const printMe = await import('./print.js');
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.innerHTML = _.join(['Hello', 'webpack, Jack'], ' ');
   element.classList.add('hello');
+  element.classList.add('c1');
 
   // const myIcon = new Image();
   // myIcon.src = Icon;
@@ -21,6 +23,7 @@ async function component() {
 
   btn.innerHTML = 'Click me and check the console!';
   btn.onclick = printMe;
+  btn.style="color: red;"
 
   element.appendChild(btn);
 

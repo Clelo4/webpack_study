@@ -1,12 +1,19 @@
 const path = require('path');
+// 自动生成HTML文件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+// 提取css到单独的文件
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// 压缩css
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// 压缩js
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   // 入口文件配置
   entry: {
     'index': path.resolve(__dirname, '../src/index.js'),
-    'print':'./src/print.js'
+    'print': path.resolve(__dirname, '../src/print.js'),
   },
   // 出口文件配置
   output: {
@@ -28,15 +35,26 @@ module.exports = {
     },
     // runtimeChunk
     runtimeChunk: 'single',
-    moduleIds: 'hashed'
-
+    moduleIds: 'hashed',
+    minimize: true,
+    minimizer: [new TerserPlugin(
+      {
+        test: /\.js(\?.*)?$/i,
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }
+    ), new OptimizeCSSAssetsPlugin({})],
   },
   // 插件配置
   plugins: [
     // 自动生产index.html文件
     new HtmlWebpackPlugin({
       title: 'Caching'
-    })
+    }),
+    new MiniCssExtractPlugin()
   ],
   // module配置
   module: {
@@ -55,8 +73,12 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        use: [{
+        use: [
+        {
           loader: 'style-loader'
+        },{
+          loader: 
+          MiniCssExtractPlugin.loader
         }, {
           loader: 'css-loader',
           options: {
@@ -71,14 +93,19 @@ module.exports = {
         test: /\.(stylus|styl)$/,
         exclude: /node_modules/,
         use: [
-          'style-loader',
           {
+            loader: 'style-loader'
+          },{
+            loader: 
+            MiniCssExtractPlugin.loader
+          }, {
             loader: 'css-loader',
             options: {
               importLoaders: 1
             }
+          }, {
+            loader: 'postcss-loader'
           },
-          'postcss-loader',
           'stylus-loader'
         ]
       },
@@ -106,11 +133,11 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, '../src')
     },
-    extensions: ['.js', '.css', '.json'],
+    extensions: ['.js', '.css', '.json', '.styl'],
     modules: [
       path.resolve(__dirname, '../src/components'),
       'node_modules'
     ],
-    enforceExtension: true, // 强制写上后缀名
+    // enforceExtension: true, // 强制写上后缀名
   }
 }
