@@ -2,6 +2,7 @@ import './style';
 import Icon from './fantasy.jpg';
 import displayM1 from './m1';
 import './c1';
+import { M1_NAME } from 'm1';
 
 async function component() {
   const element = document.createElement('div');
@@ -38,8 +39,10 @@ setTimeout(() => {
   component().then(component => {
     document.body.appendChild(component);
   });
-}, 2000);
+  document.title = M1_NAME;
+});
 
 const ENV = process.env;
 
 console.log('process.env: ', ENV);
+

@@ -8,6 +8,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // 压缩js
 const TerserPlugin = require('terser-webpack-plugin');
+// 并行压缩代码
+const ParallerUglifyPlugin = require('webpack-parallel-uglify-plugin');
+// define plugin
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 
 module.exports = {
   // 入口文件配置
@@ -54,7 +58,29 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Caching'
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    // 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码
+    new ParallerUglifyPlugin({
+      uglifyES: {
+        output: {
+          // 最紧凑输出
+          beautify: false,
+          // 移除注释
+          comments: false,
+        },
+        // 在uplifyJS删除没有用到的代码时不输出警告
+        warnings: false,
+        compress: {
+          // 删除所以的console.log语句，可以兼容ie浏览器
+          drop_console: true,
+          // 内嵌定义了但是只用到一次的变量
+          collapse_vars: true,
+          // 提取出现多次但是没有定义成变量去引用的静态值
+          reduce_vars: true
+        },
+      },
+      cacheDir: path.resolve(__dirname, './.cache')
+    })
   ],
   // module配置
   module: {
@@ -139,7 +165,6 @@ module.exports = {
       path.resolve(__dirname, '../src/components'),
       'node_modules'
     ],
-    noParse: [/vue\.min\.js$/, /jQuery\.js$/]
     // enforceExtension: true, // 强制写上后缀名
   }
 }
