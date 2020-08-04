@@ -1,1 +1,1 @@
-export const M1_NAME = 'm1';
+export const M1_NAME = 'm2';
