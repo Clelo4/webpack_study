@@ -138,6 +138,7 @@ module.exports = {
       path.resolve(__dirname, '../src/components'),
       'node_modules'
     ],
+    noParse: [/vue\.min\.js$/, /jQuery\.js$/]
     // enforceExtension: true, // 强制写上后缀名
   }
 }
