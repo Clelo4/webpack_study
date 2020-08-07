@@ -6,9 +6,9 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config ./config/webpack.prod.js",
+    "build": "webpack --config ./config/webpack.prod.js --profile",
     "start-dev": "",
-    "dev": "webpack-dev-server --config ./config/webpack.dev.js --color --progress --ho",
+    "dev": "webpack-dev-server --config ./config/webpack.dev.js --color --progress --hot",
     "server": "node server.js"
   },
   "keywords": [],

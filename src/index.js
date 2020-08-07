@@ -18,9 +18,9 @@ async function component() {
   element.classList.add('hello');
   element.classList.add('c1');
 
-  // const myIcon = new Image();
-  // myIcon.src = Icon;
-  // element.appendChild(myIcon);
+  const myIcon = new Image();
+  myIcon.src = Icon;
+  element.appendChild(myIcon);
 
   btn.innerHTML = 'Click me and check the console!';
   btn.onclick = printMe;

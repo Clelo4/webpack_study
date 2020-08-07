@@ -21,7 +21,7 @@ module.exports = {
   },
   // 出口文件配置
   output: {
-    filename: '[name].[hash].js',
+    filename: 'js/[name].[hash:8].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: ''
   },
@@ -56,9 +56,16 @@ module.exports = {
   plugins: [
     // 自动生产index.html文件
     new HtmlWebpackPlugin({
-      title: 'Caching'
+      title: 'Caching',
+      // HTML 模版文件所在的文件路径
+      // template: './template.html',
+      // 输出的 HTML 的文件名称
+      filename: 'index.html'
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name]-[contenthash:8].css'
+    }
+    ),
     // 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码
     new ParallerUglifyPlugin({
       uglifyES: {
@@ -104,7 +111,10 @@ module.exports = {
           loader: 'style-loader'
         },{
           loader: 
-          MiniCssExtractPlugin.loader
+          MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: '//css.webpack.test.com/',
+          }
         }, {
           loader: 'css-loader',
           options: {
@@ -123,7 +133,10 @@ module.exports = {
             loader: 'style-loader'
           },{
             loader: 
-            MiniCssExtractPlugin.loader
+            MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '//css.webpack.test.com/',
+            }
           }, {
             loader: 'css-loader',
             options: {
@@ -138,10 +151,27 @@ module.exports = {
       // 配置图片loader
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader']
+        use: [{
+          loader: 'file-loader',
+          options: {
+            // name: '[name].[ext]',
+            name: '[name]-[hash:8].[ext]',
+            // 输出到output.dist的子文件夹
+            outputPath: '/img',
+            // For CDN
+            publicPath: '//img.webpack.test.com/img'
+          }
+        }]
       }, {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ['file-loader']
+        use: [{
+          loader: 'file-loader',
+          options: {
+            // name: '[name].[ext]',
+            name: '[name]-[hash:8].[ext]',
+            outputPath: '/font',
+          }
+        }]
       },
       // 配置csv文件loader
       {
