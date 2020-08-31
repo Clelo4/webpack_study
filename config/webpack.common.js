@@ -66,7 +66,7 @@ module.exports = {
       filename: 'css/[name]-[contenthash:8].css'
     }
     ),
-    // 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码
+    // 使用ParallelUglifyPlugin并行压缩输出的 JS 代码
     new ParallerUglifyPlugin({
       uglifyES: {
         output: {
